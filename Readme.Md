@@ -37,7 +37,7 @@ sequenceDiagram
     alt Key exists + different payload
         API->>Client: Return 409 Conflict
     end
-```
+
  ## 3. Setup Instructions
 
 ### Install dependencies
