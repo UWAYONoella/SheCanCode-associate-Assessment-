@@ -39,7 +39,7 @@ sequenceDiagram
     end
 ```
 
-  ## 3. Setup Instructions
+## 3. Setup Instructions
 
 ### Install dependencies
 ```bash
