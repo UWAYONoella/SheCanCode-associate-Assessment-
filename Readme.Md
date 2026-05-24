@@ -56,3 +56,107 @@ npm install
 
 ```bash
 npm start
+
+
+
+
+
+
+
+
+
+# Idempotency Gateway
+
+---
+
+## Run Server
+
+```bash
+npm start
+```
+
+Server runs at:
+
+```text
+http://localhost:3000
+```
+
+---
+
+## 4. API Documentation
+
+### Endpoint
+
+```text
+POST /process-payment
+```
+
+---
+
+### Headers
+
+```json
+Content-Type: application/json
+Idempotency-Key: unique-key-123
+```
+
+---
+
+### Request Body
+
+```json
+{
+  "amount": 100,
+  "currency": "RWF"
+}
+```
+
+---
+
+## 5. Responses
+
+### First Request (201 Created)
+
+```json
+{
+  "message": "Charged 100 RWF"
+}
+```
+
+---
+
+### Duplicate Request
+
+**Header:**
+
+```text
+X-Cache-Hit: true
+```
+
+**Response:**
+
+```json
+{
+  "message": "Charged 100 RWF"
+}
+```
+
+---
+
+### Conflict (409)
+
+```json
+{
+  "error": "Idempotency key already used for a different request body."
+}
+```
+
+---
+
+## 6. Design Decisions
+
+### 1. Idempotency-Key Strategy
+
+Explain your design here.
+
+---
