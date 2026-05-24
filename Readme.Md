@@ -37,47 +37,36 @@ sequenceDiagram
     alt Key exists + different payload
         API->>Client: Return 409 Conflict
     end
-````````
+```
 
-    ## 3. Setup Instructions
+  3. Setup Instructions
+Install dependencies
+npm install
+Start Redis (if used)
+redis-server
+Run server
+npm start
 
-    ### Install dependencies
+Server runs at:
 
-    npm install
-
-    ### Start Redis
-
-    Start Redis
-
-    ### Run server
-
-    npm start
-
-    ** http://localhost:3000**
-
-
-    ## 4. API Documentation
-
-    ### Endpoint
-
-**POST /process-payment**
-
-**Headers**
+http://localhost:3000
+4. API Documentation
+Endpoint
+POST /process-payment
+Headers
 Content-Type: application/json
 Idempotency-Key: unique-key-123
 Request Body
-
 {
   "amount": 100,
   "currency": "RWF"
 }
-
-** Responses**
-✅ First Request (201)
+5. Responses
+First Request (201 Created)
 {
   "message": "Charged 100 RWF"
 }
-♻️ Duplicate Request
+Duplicate Request
 
 Header:
 
@@ -88,30 +77,44 @@ Response:
 {
   "message": "Charged 100 RWF"
 }
-
-❌ Conflict (409)
-
+Conflict (409)
 {
   "error": "Idempotency key already used for a different request body."
 }
+6. Design Decisions
+1. Idempotency-Key Strategy
 
-### 5. Design Decisions
+Used to uniquely identify payment requests.
 
-**1. Idempotency-Key Strategy**
+2. Payload Normalization
 
-Used to uniquely identify payment requests and prevent duplicate processing.
+Prevents mismatch due to object key order.
 
-#### 2. Payload Normalization
+function normalize(obj) {
+  return JSON.stringify(
+    Object.keys(obj)
+      .sort()
+      .reduce((acc, key) => {
+        acc[key] = obj[key];
+        return acc;
+      }, {})
+  );
+}
+3. Storage Layer
 
-Request bodies are normalized before comparison to avoid mismatches caused by key order differences.
-
-#### 3. Storage Layer
-
-In-memory / Redis-compatible storage used to track request state:
+Tracks request states:
 
 processing
 completed
+4. Conflict Handling
 
-#### 4. Conflict Handling
+Same key + different payload → 409 Conflict
 
+7. Conclusion
+
+This system demonstrates:
+
+Idempotent API design
+Safe retries
+Fintech-grade reliability
 If the same key is reused with a different payload, the request is rejected with 409 Conflict.
