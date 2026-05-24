@@ -45,7 +45,7 @@ sequenceDiagram
 ```bash
 npm install
 
-### Run server
+## Run Server
 
 ```bash
 npm start
