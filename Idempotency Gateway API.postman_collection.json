@@ -1,0 +1,86 @@
+{
+    "info": {
+        "_postman_id": "93d1d9a0-2954-468c-ad23-52b5d10613f6",
+        "name": "Idempotency Gateway API",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [{
+            "name": "Success Payment",
+            "request": {
+                "method": "POST",
+                "header": [{
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    },
+                    {
+                        "key": "Idempotency-Key",
+                        "value": "test-123"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"amount\": 100,\n  \"currency\": \"RWF\"\n}"
+                },
+                "url": {
+                    "raw": "http://localhost:3000/process-payment",
+                    "protocol": "http",
+                    "host": ["localhost"],
+                    "port": "3000",
+                    "path": ["process-payment"]
+                }
+            }
+        },
+        {
+            "name": "Duplicate Check",
+            "request": {
+                "method": "POST",
+                "header": [{
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    },
+                    {
+                        "key": "Idempotency-Key",
+                        "value": "test-123"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"amount\": 100,\n  \"currency\": \"RWF\"\n}"
+                },
+                "url": {
+                    "raw": "http://localhost:3000/process-payment",
+                    "protocol": "http",
+                    "host": ["localhost"],
+                    "port": "3000",
+                    "path": ["process-payment"]
+                }
+            }
+        },
+        {
+            "name": "Conflict Test ",
+            "request": {
+                "method": "POST",
+                "header": [{
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    },
+                    {
+                        "key": "Idempotency-Key",
+                        "value": "test-123"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"amount\": 500,\n  \"currency\": \"RWF\"\n}"
+                },
+                "url": {
+                    "raw": "http://localhost:3000/process-payment",
+                    "protocol": "http",
+                    "host": ["localhost"],
+                    "port": "3000",
+                    "path": ["process-payment"]
+                }
+            }
+        }
+    ]
+}
