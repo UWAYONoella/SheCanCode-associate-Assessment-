@@ -181,7 +181,7 @@ equals:
 ```
 
 
-## 8. Developer's Choice Feature
+## 5. Developer's Choice Feature
 
 ### Request Expiration (TTL Support)
 
@@ -190,11 +190,6 @@ An expiration mechanism was added to improve storage management and security.
 Each Idempotency-Key is stored with a limited lifetime (TTL). After the expiration time passes, the stored request and response are automatically removed from the system.
 
 ### Why this feature was added
-
-In real-world fintech systems, storing idempotency records forever can:
-- Consume unnecessary memory/storage
-- Reduce system performance over time
-- Increase security risks from outdated transaction data
 
 Adding request expiration helps keep the system efficient and scalable while maintaining safe retry handling for recent transactions.
 
