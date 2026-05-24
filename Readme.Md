@@ -45,30 +45,6 @@ sequenceDiagram
 ```bash
 npm install
 
-
-
-
-# Idempotency Gateway
-
----
-
-## Run Server
-
-```bash
-npm start
-
-
-
-
-
-
-
-
-
-# Idempotency Gateway
-
----
-
 ## Run Server
 
 ```bash
@@ -155,8 +131,54 @@ X-Cache-Hit: true
 
 ## 6. Design Decisions
 
-### 1. Idempotency-Key Strategy
+### 1. Why Redis?
 
-Explain your design here.
+Redis ensures:
 
+- fast lookup (O(1))
+- distributed safety
+- persistence across server restarts
+
+---
+
+### 2. Why Idempotency-Key?
+
+Prevents:
+
+- double charging
+- retry duplication
+- network timeout issues
+
+---
+
+### 3. Why 2-step storage (processing → completed)?
+
+Prevents race conditions:
+
+- simultaneous requests are safely handled
+- avoids duplicate execution
+
+---
+
+### 4. Why payload normalization?
+
+Ensures:
+
+```json
+{
+  "amount": 100,
+  "currency": "RWF"
+}
+```
+
+equals:
+
+```json
+{
+  "currency": "RWF",
+  "amount": 100
+}
+```
+
+---
 ---
